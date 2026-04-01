@@ -1,4 +1,7 @@
-﻿namespace StudyPlanner_WebApp.Models
+﻿using StudyPlanner_WebApp.Enums;
+using TaskStatus = StudyPlanner_WebApp.Enums.TaskStatus;
+
+namespace StudyPlanner_WebApp.Models
 {
     public class StudyTask
     {
