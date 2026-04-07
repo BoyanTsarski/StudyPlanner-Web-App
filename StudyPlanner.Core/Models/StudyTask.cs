@@ -1,7 +1,8 @@
-﻿using StudyPlanner_WebApp.Enums;
+﻿using StudyPlanner.Core.Models;
+using StudyPlanner_WebApp.Enums;
 using TaskStatus = StudyPlanner_WebApp.Enums.TaskStatus;
 
-namespace StudyPlanner_WebApp.Models
+namespace StudyPlanner.Core.Models
 {
     public class StudyTask
     {
@@ -14,7 +15,7 @@ namespace StudyPlanner_WebApp.Models
         public bool IsDeleted { get; set; }
 
         public string UserId { get; set; }
-        public Users User { get; set; }
+        public ApplicationUser User { get; set; }
 
         public int? CategoryId { get; set; }
         public Category Category { get; set; }

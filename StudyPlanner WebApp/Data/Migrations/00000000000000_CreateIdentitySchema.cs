@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using StudyPlanner.Infrastructure;
 using System;
 
 namespace StudyPlanner_WebApp.Data.Migrations

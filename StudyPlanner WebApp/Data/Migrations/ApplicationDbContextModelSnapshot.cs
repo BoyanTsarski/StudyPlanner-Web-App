@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using StudyPlanner.Infrastructure;
 using StudyPlanner_WebApp.Data;
 using System;
 
 namespace StudyPlanner_WebApp.Data.Migrations
 {
-	[DbContext(typeof(ApplicationDbContext))]
+	[DbContext(typeof(ApplicationDbContextModelSnapshot))]
 	partial class ApplicationDbContextModelSnapshot : ModelSnapshot
 	{
 		protected override void BuildModel(ModelBuilder modelBuilder)

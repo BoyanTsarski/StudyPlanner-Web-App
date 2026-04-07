@@ -1,4 +1,4 @@
-﻿namespace StudyPlanner_WebApp.Models
+﻿namespace StudyPlanner.Core.Models
 {
     public class Category
     {

@@ -1,4 +1,6 @@
-﻿namespace StudyPlanner_WebApp.Models
+﻿using StudyPlanner.Core.Models;
+
+namespace StudyPlanner.Core.Models
 {
     public class Exam
     {
@@ -9,6 +11,6 @@
         public string Notes { get; set; }
 
         public string UserId { get; set; }
-        public Users User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

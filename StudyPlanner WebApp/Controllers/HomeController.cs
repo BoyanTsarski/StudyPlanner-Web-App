@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudyPlanner_WebApp.Models;
 using System.Diagnostics;
 
 namespace StudyPlanner_WebApp.Controllers
