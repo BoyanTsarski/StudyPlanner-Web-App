@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Identity;
-using StudyPlanner.Core.Models;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace StudyPlanner.Core.Models
 {
