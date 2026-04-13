@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StudyPlanner.Core.Interfaces;
 using StudyPlanner.Core.Models;
 using StudyPlanner.Infrastructure;
+using StudyPlanner.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<ITaskService, TaskService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
