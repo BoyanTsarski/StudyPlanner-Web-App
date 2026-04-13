@@ -11,9 +11,9 @@ namespace StudyPlanner.Infrastructure
         {
         }
 
-        public DbSet<StudyTask> Tasks { get; set; }
-        public DbSet<Exam> Exams { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<SubTask> SubTasks { get; set; }
+        public DbSet<StudyTask> Tasks { get; set; } = null!;
+        public DbSet<Exam> Exams { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<SubTask> SubTasks { get; set; } = null!;
     }
 }
