@@ -1,0 +1,66 @@
+﻿@model IEnumerable<StudyPlanner.Core.Models.StudyTask>
+@{
+    ViewData["Title"] = "Задачи";
+}
+
+<div class="container-fluid px-4 py-4">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Моите задачи</h1>
+        <a asp-action="Create" class="btn btn-dark">+ Нова задача</a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Заглавие</th>
+                        <th>Категория</th>
+                        <th>Приоритет</th>
+                        <th>Статус</th>
+                        <th>Краен срок</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model)
+                    {
+                        <tr>
+                            <td>@task.Title</td>
+                            <td>@(task.Category?.Name ?? "—")</td>
+                            <td>
+                                @if (task.Priority == StudyPlanner.Core.Enums.Priority.High)
+                                {
+                                    <span class="badge bg-danger">Високо</span>
+                                }
+                                else if (task.Priority == StudyPlanner.Core.Enums.Priority.Medium)
+                                {
+                                    <span class="badge bg-warning text-dark">Средно</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Ниско</span>
+                                }
+                            </td>
+                            <td>@task.Status</td>
+                            <td>@task.DueDate.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@task.Id" class="btn btn-sm btn-outline-secondary">Детайли</a>
+                                <a asp-action="Edit" asp-route-id="@task.Id" class="btn btn-sm btn-outline-primary">Редактирай</a>
+                                <a asp-action="Delete" asp-route-id="@task.Id" class="btn btn-sm btn-outline-danger">Изтрий</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

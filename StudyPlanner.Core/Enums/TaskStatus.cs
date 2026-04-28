@@ -1,4 +1,4 @@
-﻿namespace StudyPlanner_WebApp.Enums
+﻿namespace StudyPlanner.Core.Enums
 {
     public enum TaskStatus
     {

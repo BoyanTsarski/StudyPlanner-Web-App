@@ -1,6 +1,5 @@
-﻿using StudyPlanner.Core.Models;
-using StudyPlanner_WebApp.Enums;
-using TaskStatus = StudyPlanner_WebApp.Enums.TaskStatus;
+﻿using StudyPlanner.Core.Enums;
+using TaskStatus = StudyPlanner.Core.Enums.TaskStatus;
 
 namespace StudyPlanner.Core.Models
 {
