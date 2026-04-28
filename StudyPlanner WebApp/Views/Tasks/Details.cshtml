@@ -1,0 +1,70 @@
+﻿@model StudyPlanner.Core.Models.StudyTask
+@{
+    ViewData["Title"] = "Детайли за задача";
+}
+
+<div class="container py-4" style="max-width: 700px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">@Model.Title</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">Назад</a>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Описание</div>
+                <div class="col-sm-8">@(Model.Description ?? "—")</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Категория</div>
+                <div class="col-sm-8">@(Model.Category?.Name ?? "—")</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Приоритет</div>
+                <div class="col-sm-8">
+                    @if (Model.Priority == StudyPlanner.Core.Enums.Priority.High)
+                    {
+                        <span class="badge bg-danger">Високо</span>
+                    }
+                    else if (Model.Priority == StudyPlanner.Core.Enums.Priority.Medium)
+                    {
+                        <span class="badge bg-warning text-dark">Средно</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Ниско</span>
+                    }
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Статус</div>
+                <div class="col-sm-8">@Model.Status</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Краен срок</div>
+                <div class="col-sm-8">@Model.DueDate.ToString("dd.MM.yyyy")</div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.SubTasks != null && Model.SubTasks.Any())
+    {
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h5 class="mb-3">Подзадачи</h5>
+                @foreach (var sub in Model.SubTasks)
+                {
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input type="checkbox" disabled checked="@sub.IsCompleted" />
+                        <span class="@(sub.IsCompleted ? "text-decoration-line-through text-muted" : "")">@sub.Title</span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark">Редактирай</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изтрий</a>
+    </div>
+</div>

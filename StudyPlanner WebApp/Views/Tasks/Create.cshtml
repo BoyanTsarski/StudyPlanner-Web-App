@@ -1,0 +1,72 @@
+﻿@model StudyPlanner.Core.Models.StudyTask
+@{
+    ViewData["Title"] = "Нова задача";
+}
+
+<div class="container py-4" style="max-width: 700px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Нова задача</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">Назад</a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label">Заглавие</label>
+                    <input asp-for="Title" class="form-control" placeholder="Въведи заглавие" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Въведи описание"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="DueDate" class="form-label">Краен срок</label>
+                        <input asp-for="DueDate" class="form-control" type="date" />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Priority" class="form-label">Приоритет</label>
+                        <select asp-for="Priority" class="form-select"
+                                asp-items="Html.GetEnumSelectList<StudyPlanner.Core.Enums.Priority>()">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Status" class="form-label">Статус</label>
+                        <select asp-for="Status" class="form-select"
+                                asp-items="Html.GetEnumSelectList<StudyPlanner.Core.Enums.TaskStatus>()">
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="CategoryId" class="form-label">Категория</label>
+                        <select asp-for="CategoryId" class="form-select">
+                            <option value="">— Избери категория —</option>
+                            @foreach (var cat in ViewBag.Categories as IEnumerable<StudyPlanner.Core.Models.Category> ?? new List<StudyPlanner.Core.Models.Category>())
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-2">
+                    <button type="submit" class="btn btn-dark">Създай задача</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Отказ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
