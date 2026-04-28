@@ -1,0 +1,41 @@
+﻿@model StudyPlanner.Core.Models.Exam
+@{
+    ViewData["Title"] = "Детайли за изпит";
+}
+
+<div class="container py-4" style="max-width: 700px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">@Model.Subject</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">Назад</a>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Предмет</div>
+                <div class="col-sm-8">@Model.Subject</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Дата</div>
+                <div class="col-sm-8">@Model.ExamDate.ToString("dd.MM.yyyy")</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Час</div>
+                <div class="col-sm-8">@Model.ExamDate.ToString("HH:mm")</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Зала</div>
+                <div class="col-sm-8">@(Model.Location ?? "—")</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted">Бележки</div>
+                <div class="col-sm-8">@(Model.Notes ?? "—")</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark">Редактирай</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изтрий</a>
+    </div>
+</div>

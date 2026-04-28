@@ -20,8 +20,4 @@
     <ProjectReference Include="..\StudyPlanner.Infrastructure\StudyPlanner.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Categories\" />
-  </ItemGroup>
-
 </Project>
