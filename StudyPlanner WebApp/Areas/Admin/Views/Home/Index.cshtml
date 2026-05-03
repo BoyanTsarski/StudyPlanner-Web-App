@@ -1,39 +1,124 @@
 ﻿@{
-    ViewData["Title"] = "Admin Panel";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="container mt-4">
-    <h1>Admin Panel</h1>
-    <p>Добре дошъл в администраторския панел.</p>
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Добре дошъл, @User.Identity.Name</h1>
+            <p class="text-muted mb-0">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</p>
+        </div>
+        <a asp-controller="Tasks" asp-action="Create" class="btn btn-dark">+ Нова задача</a>
+    </div>
 
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card">
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Потребители</h5>
-                    <p class="card-text">Управление на потребителите.</p>
-                    <a href="#" class="btn btn-dark">Виж всички</a>
+                    <p class="text-muted small mb-1">Активни задачи</p>
+                    <h2 class="mb-0" id="taskCount">—</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted small mb-1">Предстоящи изпити</p>
+                    <h2 class="mb-0" id="examCount">—</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted small mb-1">Категории</p>
+                    <h2 class="mb-0" id="categoryCount">—</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted small mb-1">Pomodoro сесии</p>
+                    <h2 class="mb-0">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Последни задачи</h5>
+                    <div id="recentTasks">
+                        <p class="text-muted">Зареждане...</p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Задачи</h5>
-                    <p class="card-text">Преглед на всички задачи.</p>
-                    <a href="#" class="btn btn-dark">Виж всички</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Категории</h5>
-                    <p class="card-text">Управление на категориите.</p>
-                    <a href="#" class="btn btn-dark">Виж всички</a>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-3">Pomodoro таймер</h5>
+                    <div id="timer" style="font-size:3rem;font-weight:500">25:00</div>
+                    <p class="text-muted small mb-3">Фокус сесия</p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button class="btn btn-dark" onclick="startTimer()">Старт</button>
+                        <button class="btn btn-outline-secondary" onclick="resetTimer()">Reset</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        let timerInterval;
+        let seconds = 25 * 60;
+
+        function updateDisplay() {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = m + ':' + s;
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                if (seconds > 0) {
+                    seconds--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    alert('Сесията приключи!');
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            seconds = 25 * 60;
+            updateDisplay();
+        }
+
+        fetch('/api/tasks')
+            .then(r => r.json())
+            .then(tasks => {
+                document.getElementById('taskCount').textContent = tasks.length;
+                const html = tasks.slice(0, 5).map(t =>
+                    `<div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span>${t.title}</span>
+                        <span class="badge bg-secondary">${t.priority}</span>
+                    </div>`
+                ).join('');
+                document.getElementById('recentTasks').innerHTML = html || '<p class="text-muted">Няма задачи</p>';
+            })
+            .catch(() => {
+                document.getElementById('recentTasks').innerHTML = '<p class="text-muted">Грешка при зареждане</p>';
+            });
+    </script>
+}
