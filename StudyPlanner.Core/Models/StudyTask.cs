@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
 using StudyPlanner.Core.Enums;
-using TaskStatus = System.Threading.Tasks.TaskStatus;
+using TaskStatus = StudyPlanner.Core.Enums.TaskStatus;
 
 namespace StudyPlanner.Core.Models
 {
@@ -14,7 +13,7 @@ namespace StudyPlanner.Core.Models
         public string Title { get; set; }
 
         [StringLength(500, ErrorMessage = "Описанието не може да е повече от 500 символа")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "Крайният срок е задължителен")]
         public DateTime DueDate { get; set; }
