@@ -19,11 +19,20 @@ namespace StudyPlanner_WebApp.Controllers
             _categoryService = categoryService;
             _userManager = userManager;
         }
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, string priority, string status, int page = 1)
         {
+            int pageSize = 10;
             var userId = _userManager.GetUserId(User);
-            var tasks = await _taskService.GetAllTasksAsync(userId);
+
+            var tasks = await _taskService.GetFilteredTasksAsync(userId, search, priority, status, page, pageSize);
+            var totalCount = await _taskService.GetTasksCountAsync(userId, search, priority, status);
+
+            ViewBag.Search = search;
+            ViewBag.Priority = priority;
+            ViewBag.Status = status;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
             return View(tasks);
         }
 
