@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudyPlanner.Core.Enums;
 using StudyPlanner.Core.Interfaces;
 using StudyPlanner.Core.Models;
+using TaskStatus = StudyPlanner.Core.Enums.TaskStatus;
 
 namespace StudyPlanner.Infrastructure.Services
 {
@@ -21,6 +23,48 @@ namespace StudyPlanner.Infrastructure.Services
                 .Include(t => t.SubTasks)
                 .OrderBy(t => t.DueDate)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<StudyTask>> GetFilteredTasksAsync(string userId, string search, string priority, string status, int page, int pageSize)
+        {
+            var query = _context.Tasks
+                .Where(t => t.UserId == userId && !t.IsDeleted)
+                .Include(t => t.Category)
+                .Include(t => t.SubTasks)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(t => t.Title.Contains(search) || t.Description.Contains(search));
+
+            if (!string.IsNullOrEmpty(priority) && Enum.TryParse<Priority>(priority, out var p))
+                query = query.Where(t => t.Priority == p);
+
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse<TaskStatus>(status, out var s))
+                query = query.Where(t => t.Status == s);
+
+            return await query
+                .OrderBy(t => t.DueDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetTasksCountAsync(string userId, string search, string priority, string status)
+        {
+            var query = _context.Tasks
+                .Where(t => t.UserId == userId && !t.IsDeleted)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(t => t.Title.Contains(search) || t.Description.Contains(search));
+
+            if (!string.IsNullOrEmpty(priority) && Enum.TryParse<Priority>(priority, out var p))
+                query = query.Where(t => t.Priority == p);
+
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse<TaskStatus>(status, out var s))
+                query = query.Where(t => t.Status == s);
+
+            return await query.CountAsync();
         }
 
         public async Task<StudyTask> GetTaskByIdAsync(int id)
