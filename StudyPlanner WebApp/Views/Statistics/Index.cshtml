@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Статистики";
+}
+
+<div class="container-fluid px-4 py-4">
+    <h1 class="h3 mb-4">Статистики</h1>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <p class="text-muted small mb-1">Общо задачи</p>
+                    <h2 class="mb-0">@ViewBag.TotalTasks</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <p class="text-muted small mb-1">Завършени</p>
+                    <h2 class="mb-0" style="color:#1D9E75">@ViewBag.CompletedTasks</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <p class="text-muted small mb-1">В процес</p>
+                    <h2 class="mb-0" style="color:#EF9F27">@ViewBag.InProgressTasks</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <p class="text-muted small mb-1">Предстоящи изпити</p>
+                    <h2 class="mb-0" style="color:#378ADD">@ViewBag.TotalExams</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Статус на задачите</h5>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Приоритет на задачите</h5>
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const statusCtx = document.getElementById('statusChart');
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['За правене', 'В процес', 'Завършени'],
+                datasets: [{
+                    data: [@ViewBag.PendingTasks, @ViewBag.InProgressTasks, @ViewBag.CompletedTasks],
+                    backgroundColor: ['#378ADD', '#EF9F27', '#1D9E75'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        const priorityCtx = document.getElementById('priorityChart');
+        new Chart(priorityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Високо', 'Средно', 'Ниско'],
+                datasets: [{
+                    data: [@ViewBag.HighPriority, @ViewBag.MediumPriority, @ViewBag.LowPriority],
+                    backgroundColor: ['#E24B4A', '#EF9F27', '#1D9E75'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+}
