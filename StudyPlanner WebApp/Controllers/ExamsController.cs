@@ -18,10 +18,18 @@ namespace StudyPlanner_WebApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, int page = 1)
         {
+            int pageSize = 10;
             var userId = _userManager.GetUserId(User);
-            var exams = await _examService.GetAllExamsAsync(userId);
+
+            var exams = await _examService.GetFilteredExamsAsync(userId, search, page, pageSize);
+            var totalCount = await _examService.GetExamsCountAsync(userId, search);
+
+            ViewBag.Search = search;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
             return View(exams);
         }
 

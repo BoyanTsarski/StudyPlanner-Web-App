@@ -48,5 +48,32 @@ namespace StudyPlanner.Infrastructure.Services
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<IEnumerable<Exam>> GetFilteredExamsAsync(string userId, string search, int page, int pageSize)
+        {
+            var query = _context.Exams
+                .Where(e => e.UserId == userId)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(e => e.Subject.Contains(search) || e.Location.Contains(search));
+
+            return await query
+                .OrderBy(e => e.ExamDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetExamsCountAsync(string userId, string search)
+        {
+            var query = _context.Exams
+                .Where(e => e.UserId == userId)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(e => e.Subject.Contains(search) || e.Location.Contains(search));
+
+            return await query.CountAsync();
+        }
     }
 }
