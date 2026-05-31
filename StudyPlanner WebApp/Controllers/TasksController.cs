@@ -90,5 +90,25 @@ namespace StudyPlanner_WebApp.Controllers
 			if (task == null) return NotFound();
 			return View(task);
 		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> AddSubTask(int taskId, string title)
+		{
+			if (!string.IsNullOrEmpty(title))
+			{
+				await _taskService.AddSubTaskAsync(taskId, title);
+				TempData["Success"] = "Подзадачата е добавена успешно!";
+			}
+			return RedirectToAction(nameof(Details), new { id = taskId });
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ToggleSubTask(int subTaskId, int taskId)
+		{
+			await _taskService.ToggleSubTaskAsync(subTaskId);
+			return RedirectToAction(nameof(Details), new { id = taskId });
+		}
 	}
 }

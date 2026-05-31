@@ -24,21 +24,34 @@
                 <div class="col-sm-8">
                     @if (Model.Priority == StudyPlanner.Core.Enums.Priority.High)
                     {
-                        <span class="badge bg-danger">Високо</span>
+                        <span class="badge" style="background:#FCEBEB;color:#A32D2D">Високо</span>
                     }
                     else if (Model.Priority == StudyPlanner.Core.Enums.Priority.Medium)
                     {
-                        <span class="badge bg-warning text-dark">Средно</span>
+                        <span class="badge" style="background:#FAEEDA;color:#854F0B">Средно</span>
                     }
                     else
                     {
-                        <span class="badge bg-success">Ниско</span>
+                        <span class="badge" style="background:#EAF3DE;color:#3B6D11">Ниско</span>
                     }
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-4 text-muted">Статус</div>
-                <div class="col-sm-8">@Model.Status</div>
+                <div class="col-sm-8">
+                    @if (Model.Status == StudyPlanner.Core.Enums.TaskStatus.Done)
+                    {
+                        <span class="badge" style="background:#EAF3DE;color:#3B6D11">Завършена</span>
+                    }
+                    else if (Model.Status == StudyPlanner.Core.Enums.TaskStatus.InProgress)
+                    {
+                        <span class="badge" style="background:#FAEEDA;color:#854F0B">В процес</span>
+                    }
+                    else
+                    {
+                        <span class="badge" style="background:#E6F1FB;color:#185FA5">За правене</span>
+                    }
+                </div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-4 text-muted">Краен срок</div>
@@ -47,21 +60,43 @@
         </div>
     </div>
 
-    @if (Model.SubTasks != null && Model.SubTasks.Any())
-    {
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body p-4">
-                <h5 class="mb-3">Подзадачи</h5>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h5 class="mb-3">Подзадачи</h5>
+
+            @if (Model.SubTasks != null && Model.SubTasks.Any())
+            {
                 @foreach (var sub in Model.SubTasks)
                 {
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <input type="checkbox" disabled checked="@sub.IsCompleted" />
-                        <span class="@(sub.IsCompleted ? "text-decoration-line-through text-muted" : "")">@sub.Title</span>
+                        <form asp-action="ToggleSubTask" method="post" class="d-inline">
+                            <input type="hidden" name="subTaskId" value="@sub.Id" />
+                            <input type="hidden" name="taskId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent">
+                                <div style="width:18px;height:18px;border-radius:4px;border:1.5px solid @(sub.IsCompleted ? "#1D9E75" : "#d0d5de");background:@(sub.IsCompleted ? "#1D9E75" : "transparent");display:flex;align-items:center;justify-content:center;">
+                                    @if (sub.IsCompleted)
+                                    {
+                                        <span style="color:#fff;font-size:11px">✓</span>
+                                    }
+                                </div>
+                            </button>
+                        </form>
+                        <span class="@(sub.IsCompleted ? "text-decoration-line-through text-muted" : "")" style="font-size:14px">@sub.Title</span>
                     </div>
                 }
-            </div>
+            }
+            else
+            {
+                <p class="text-muted" style="font-size:14px">Няма подзадачи</p>
+            }
+
+            <form asp-action="AddSubTask" method="post" class="mt-3 d-flex gap-2">
+                <input type="hidden" name="taskId" value="@Model.Id" />
+                <input type="text" name="title" class="form-control" placeholder="Нова подзадача..." style="font-size:14px" />
+                <button type="submit" class="btn btn-dark" style="white-space:nowrap">Добави</button>
+            </form>
         </div>
-    }
+    </div>
 
     <div class="d-flex gap-2">
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark">Редактирай</a>
