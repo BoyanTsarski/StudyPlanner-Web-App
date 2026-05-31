@@ -6,7 +6,6 @@ using StudyPlanner.Core.Models;
 
 namespace StudyPlanner_WebApp.Controllers
 {
-    [Authorize]
     public class StatisticsController : Controller
     {
         private readonly ITaskService _taskService;
@@ -20,22 +19,27 @@ namespace StudyPlanner_WebApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var userId = _userManager.GetUserId(User);
-            var tasks = await _taskService.GetAllTasksAsync(userId);
-            var exams = await _examService.GetAllExamsAsync(userId);
+		public async Task<IActionResult> Index()
+		{
+			if (!User.Identity.IsAuthenticated)
+			{
+				return View();
+			}
 
-            ViewBag.TotalTasks = tasks.Count();
-            ViewBag.CompletedTasks = tasks.Count(t => t.Status == StudyPlanner.Core.Enums.TaskStatus.Done);
-            ViewBag.PendingTasks = tasks.Count(t => t.Status == StudyPlanner.Core.Enums.TaskStatus.ToDo);
-            ViewBag.InProgressTasks = tasks.Count(t => t.Status == StudyPlanner.Core.Enums.TaskStatus.InProgress);
-            ViewBag.TotalExams = exams.Count();
-            ViewBag.HighPriority = tasks.Count(t => t.Priority == StudyPlanner.Core.Enums.Priority.High);
-            ViewBag.MediumPriority = tasks.Count(t => t.Priority == StudyPlanner.Core.Enums.Priority.Medium);
-            ViewBag.LowPriority = tasks.Count(t => t.Priority == StudyPlanner.Core.Enums.Priority.Low);
+			var userId = _userManager.GetUserId(User);
+			var tasks = await _taskService.GetAllTasksAsync(userId);
+			var exams = await _examService.GetAllExamsAsync(userId);
 
-            return View();
-        }
-    }
+			ViewBag.TotalTasks = tasks.Count();
+			ViewBag.CompletedTasks = tasks.Count(t => t.Status == StudyPlanner.Core.Enums.TaskStatus.Done);
+			ViewBag.PendingTasks = tasks.Count(t => t.Status == StudyPlanner.Core.Enums.TaskStatus.ToDo);
+			ViewBag.InProgressTasks = tasks.Count(t => t.Status == StudyPlanner.Core.Enums.TaskStatus.InProgress);
+			ViewBag.TotalExams = exams.Count();
+			ViewBag.HighPriority = tasks.Count(t => t.Priority == StudyPlanner.Core.Enums.Priority.High);
+			ViewBag.MediumPriority = tasks.Count(t => t.Priority == StudyPlanner.Core.Enums.Priority.Medium);
+			ViewBag.LowPriority = tasks.Count(t => t.Priority == StudyPlanner.Core.Enums.Priority.Low);
+
+			return View();
+		}
+	}
 }
