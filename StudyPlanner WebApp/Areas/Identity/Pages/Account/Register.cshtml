@@ -1,0 +1,57 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem">
+    <div style="width:100%;max-width:420px">
+        <div class="text-center mb-4">
+            <div style="width:48px;height:48px;background:#0f1c2e;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                <span style="color:#1D9E75;font-size:20px">&#9632;</span>
+            </div>
+            <h1 style="font-size:22px;font-weight:600;color:#0f1c2e">Създай профил</h1>
+            <p style="font-size:14px;color:#6b7a8d;margin-top:4px">Регистрирай се безплатно в StudyPlanner</p>
+        </div>
+
+        <div class="card border-0" style="border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
+            <div class="card-body p-4">
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert" style="font-size:13px"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Email" class="form-label">Email адрес</label>
+                        <input asp-for="Input.Email" class="form-control" placeholder="email@example.com" autocomplete="username" />
+                        <span asp-validation-for="Input.Email" class="text-danger" style="font-size:12px"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Password" class="form-label">Парола</label>
+                        <input asp-for="Input.Password" class="form-control" placeholder="••••••••" autocomplete="new-password" />
+                        <span asp-validation-for="Input.Password" class="text-danger" style="font-size:12px"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Input.ConfirmPassword" class="form-label">Потвърди парола</label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="••••••••" autocomplete="new-password" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="font-size:12px"></span>
+                    </div>
+
+                    <button id="registerSubmit" type="submit" class="btn btn-dark w-100" style="padding:10px;font-size:14px;border-radius:10px">Създай профил</button>
+
+                    <div class="text-center mt-3" style="font-size:13px;color:#6b7a8d">
+                        Вече имаш профил? <a asp-page="./Login" style="color:#1D9E75;font-weight:500">Влез</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p class="text-center mt-3" style="font-size:12px;color:#9aa5b4">
+            © 2026 StudyPlanner. Всички права запазени.
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
