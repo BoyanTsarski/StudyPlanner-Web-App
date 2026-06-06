@@ -1,0 +1,76 @@
+﻿@model StudyPlanner.Core.ViewModels.EditProfileViewModel
+@{
+    ViewData["Title"] = "Моят профил";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+
+            <!-- Профилна карта -->
+            <div class="card p-4 mb-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:60px;height:60px;background:#1D9E75;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#fff;">
+                        @Model.FirstName[0]@Model.LastName[0]
+                    </div>
+                    <div>
+                        <h5 class="mb-0">@Model.FirstName @Model.LastName</h5>
+                        <small class="text-muted">@Model.Email</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Форма за редактиране -->
+            <div class="card p-4 mb-3">
+                <h6 class="mb-3">Редактиране на информация</h6>
+                <form asp-action="Index" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DateOfBirth" class="form-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" type="date" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" disabled />
+                        <small class="text-muted">Имейлът не може да се променя.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark">Запази</button>
+                </form>
+            </div>
+
+            <div class="card p-4">
+                <h6 class="mb-1">Парола</h6>
+                <p class="text-muted mb-2" style="font-size:13px">Промени паролата си за достъп.</p>
+                <a asp-action="ChangePassword" class="btn btn-outline-secondary btn-sm">Смяна на парола</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
