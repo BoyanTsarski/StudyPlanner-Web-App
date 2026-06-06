@@ -39,14 +39,22 @@ namespace StudyPlanner.Infrastructure.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteCategoryAsync(int id)
-        {
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-                await _context.SaveChangesAsync();
-            }
-        }
-    }
+		public async Task DeleteCategoryAsync(int id)
+		{
+			var category = await _context.Categories
+				.Include(c => c.Tasks)
+				.FirstOrDefaultAsync(c => c.Id == id);
+
+			if (category != null)
+			{
+				foreach (var task in category.Tasks)
+				{
+					task.CategoryId = null;
+				}
+
+				_context.Categories.Remove(category);
+				await _context.SaveChangesAsync();
+			}
+		}
+	}
 }

@@ -28,14 +28,52 @@
                     </div>
                     <div class="card-footer bg-transparent border-0 d-flex gap-2">
                         <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-outline-primary">Редактирай</a>
-                        <form asp-action="Delete" asp-route-id="@category.Id" method="post"
-                              onsubmit="return confirm('Сигурен ли си, че искаш да изтриеш категория \"@category.Name\"?\nЗадачите ще останат без категория.')">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Изтрий</button>
-                        </form>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-id="@category.Id"
+                                data-name="@category.Name">
+                            Изтрий
+                        </button>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Изтриване на категория</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Сигурен ли си, че искаш да изтриеш категория <strong id="modalCategoryName"></strong>?
+                <p class="text-muted mt-2 mb-0" style="font-size:13px">Задачите ще останат без категория.</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form id="deleteForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            const id = btn.getAttribute('data-id');
+            const name = btn.getAttribute('data-name');
+            document.getElementById('modalCategoryName').textContent = name;
+            document.getElementById('deleteForm').action = '/Categories/Delete/' + id;
+        });
+    </script>
+}

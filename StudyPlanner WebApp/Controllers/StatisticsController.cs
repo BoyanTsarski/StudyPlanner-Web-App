@@ -6,7 +6,8 @@ using StudyPlanner.Core.Models;
 
 namespace StudyPlanner_WebApp.Controllers
 {
-    public class StatisticsController : Controller
+	[Authorize]
+	public class StatisticsController : Controller
     {
         private readonly ITaskService _taskService;
         private readonly IExamService _examService;

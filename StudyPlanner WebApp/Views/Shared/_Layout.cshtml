@@ -23,26 +23,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-white-50" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50" asp-area="" asp-controller="Tasks" asp-action="Index">Задачи</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50" asp-area="" asp-controller="Exams" asp-action="Index">Изпити</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50" asp-area="" asp-controller="Categories" asp-action="Index">Категории</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50" asp-area="" asp-controller="Calendar" asp-action="Index">Календар</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50" asp-area="" asp-controller="Statistics" asp-action="Index">Статистики</a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.Identity!.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-warning" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Tasks" asp-action="Index">Задачи</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Exams" asp-action="Index">Изпити</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Categories" asp-action="Index">Категории</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Calendar" asp-action="Index">Календар</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white-50" asp-area="" asp-controller="Statistics" asp-action="Index">Статистики</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+                                </li>
+                            }
                         }
                     </ul>
                     <partial name="_LoginPartial" />
