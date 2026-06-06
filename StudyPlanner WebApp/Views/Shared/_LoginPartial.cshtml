@@ -7,7 +7,8 @@
     {
         <li class="nav-item">
             <a class="nav-link text-white-50" asp-area="" asp-controller="Profile" asp-action="Index" title="Профил">
-                Hello @User.Identity?.Name!
+                @inject UserManager<ApplicationUser> _um
+                Hello @((await _um.GetUserAsync(User))?.FirstName ?? User.Identity?.Name)!
             </a>
         </li>
         <li class="nav-item">
