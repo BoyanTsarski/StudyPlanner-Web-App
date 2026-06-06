@@ -1,0 +1,55 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Профил";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5" style="max-width:600px">
+    <div class="text-center mb-4">
+        <div style="width:64px;height:64px;background:#0f1c2e;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+            <span style="color:#1D9E75;font-size:24px">&#9632;</span>
+        </div>
+        <h1 style="font-size:22px;font-weight:600">Моят профил</h1>
+        <p style="font-size:14px;color:#6b7a8d">Управление на акаунта</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <partial name="_StatusMessage" for="StatusMessage" />
+
+            <form id="profile-form" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label">Потребителско име</label>
+                    <input asp-for="Username" class="form-control" disabled />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Input.PhoneNumber" class="form-label">Телефонен номер</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="+359..." />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                </div>
+
+                <button id="update-profile-button" type="submit" class="btn btn-dark w-100">Запази промените</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mt-3">
+        <div class="card-body p-4">
+            <h5 style="font-size:15px;font-weight:600;margin-bottom:16px">Настройки на акаунта</h5>
+            <div class="d-flex flex-column gap-2">
+                <a asp-page="./Email" class="btn btn-outline-secondary text-start">Промени email</a>
+                <a asp-page="./ChangePassword" class="btn btn-outline-secondary text-start">Промени парола</a>
+                <a asp-page="./TwoFactorAuthentication" class="btn btn-outline-secondary text-start">Двуфакторна автентикация</a>
+                <a asp-page="./PersonalData" class="btn btn-outline-danger text-start">Лични данни</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
