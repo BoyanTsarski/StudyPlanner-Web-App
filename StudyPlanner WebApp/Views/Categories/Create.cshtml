@@ -9,11 +9,11 @@
     </div>
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-            <form asp-action="Create" method="post" novalidate>
+            <form asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
                 <div class="mb-3">
                     <label asp-for="Name" class="form-label">Име</label>
-                    <input asp-for="Name" class="form-control" placeholder="Въведи ime на категория" />
+                    <input asp-for="Name" class="form-control" placeholder="Въведи име на категория" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="mb-3">

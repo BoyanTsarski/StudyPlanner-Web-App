@@ -25,18 +25,18 @@ namespace StudyPlanner_WebApp.Controllers
 		{
 			return View();
 		}
-
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(Category category)
 		{
-			if (ModelState.IsValid)
+			foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
 			{
-				await _categoryService.CreateCategoryAsync(category);
-				TempData["Success"] = "Категорията е създадена успешно!";
-				return RedirectToAction(nameof(Index));
+				Console.WriteLine(error.ErrorMessage);
 			}
-			return View(category);
+
+			category.Name = category.Name ?? "Test";
+			await _categoryService.CreateCategoryAsync(category);
+			TempData["Success"] = "Категорията е създадена успешно!";
+			return RedirectToAction(nameof(Index));
 		}
 
 		public async Task<IActionResult> Edit(int id)
