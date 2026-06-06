@@ -119,7 +119,9 @@ namespace StudyPlanner_WebApp.Areas.Identity.Pages.Account
 		{
 			try
 			{
-				return Activator.CreateInstance<ApplicationUser>();
+				var user = Activator.CreateInstance<ApplicationUser>();
+				user.CreatedOn = DateTime.UtcNow;
+				return user;
 			}
 			catch
 			{
