@@ -12,6 +12,7 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
             <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
                 <div class="mb-3">
                     <label asp-for="Subject" class="form-label">Предмет</label>
                     <input asp-for="Subject" class="form-control" placeholder="Въведи предмет" />

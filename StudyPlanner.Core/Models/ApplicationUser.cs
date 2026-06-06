@@ -2,12 +2,12 @@
 
 namespace StudyPlanner.Core.Models
 {
-    public class ApplicationUser : IdentityUser
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public ICollection<StudyTask> Tasks { get; set; }
-        public ICollection<Exam> Exams { get; set; }
-    }
+	public class ApplicationUser : IdentityUser
+	{
+		public string? FirstName { get; set; }
+		public string? LastName { get; set; }
+		public DateTime CreatedOn { get; set; }
+		public ICollection<StudyTask> Tasks { get; set; }
+		public ICollection<Exam> Exams { get; set; }
+	}
 }
