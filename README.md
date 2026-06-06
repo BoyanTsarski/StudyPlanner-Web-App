@@ -1,78 +1,88 @@
-# 📚 StudyPlanner Web App
+# StudyPlanner Web App
 
-> Уеб приложение за ученици и студенти за организиране на задачи, изпити и проекти.
-
----
-
-## 📖 Описание
-
-**StudyPlanner** помага на студентите да управляват учебния си процес чрез организиране на задачи, изпити и категории, с възможност за проследяване на напредъка и планиране на времето.
+> A web application for students to organize tasks, exams, and projects.
 
 ---
 
-## ✨ Основни функции
+## Description
 
-- ✅ Създаване, редактиране и изтриване на задачи с приоритети и подзадачи
-- 📅 Управление на изпити с дата, час и зала
-- 🏷️ Категоризиране на задачи по предмети
-- 📊 Dashboard с реални статистики и напомняния
-- 🗓️ Календар с всички задачи и изпити
-- 📈 Статистики с графики (Chart.js)
-- ⏱️ Pomodoro таймер за фокусирана работа
-- 🔍 Филтриране, търсене и странициране
-- 🔐 Admin панел за управление на потребители
+**StudyPlanner** helps students manage their academic workflow by organizing tasks, exams, and categories, with features for progress tracking and time management.
 
 ---
 
-## 👥 Потребители
+## Main Features
 
-| Роля | Достъп |
-|------|--------|
-| 👤 Гост | Ограничен достъп |
-| 🎓 Регистриран | Пълен достъп |
-| 🛡️ Администратор | Admin панел |
-
----
-
-## 🛠️ Технологии
-
-| Технология | Употреба |
-|-----------|---------|
-| ASP.NET Core 6.0 | MVC Framework |
-| Entity Framework Core 6.0 | ORM |
-| Microsoft SQL Server | База данни |
-| ASP.NET Identity | Автентикация |
-| Bootstrap 5 | UI Framework |
-| Chart.js | Графики |
-| FullCalendar | Календар |
-| NUnit | Unit тестове |
+* Create, edit, and delete tasks with priorities and subtasks
+* Manage exams with date, time, and location
+* Categorize tasks by subject
+* Dashboard with real-time statistics and reminders
+* Calendar with all tasks and exams
+* Statistics and charts powered by Chart.js
+* Pomodoro timer for focused work sessions
+* Filtering, searching, and pagination
+* Admin panel for user management
 
 ---
 
-## 📁 Структура на проекта
+## User Roles
+
+| Role            | Access             |
+| --------------- | ------------------ |
+| Guest           | Limited access     |
+| Registered User | Full access        |
+| Administrator   | Admin panel access |
+
+---
+
+## Technologies
+
+| Technology                | Purpose               |
+| ------------------------- | --------------------- |
+| ASP.NET Core 6.0          | MVC Framework         |
+| Entity Framework Core 6.0 | ORM                   |
+| Microsoft SQL Server      | Database              |
+| ASP.NET Identity          | Authentication        |
+| Bootstrap 5               | UI Framework          |
+| Chart.js                  | Charts and Statistics |
+| FullCalendar              | Calendar              |
+| NUnit                     | Unit Testing          |
+
+---
+
+## Project Structure
+
+```text
 StudyPlanner/
-├── 🌐 StudyPlanner.Web             # ASP.NET Core MVC
-├── 📦 StudyPlanner.Core            # Entity модели, интерфейси
-├── 🔧 StudyPlanner.Infrastructure  # EF Core, Services, Migrations
-└── 🧪 StudyPlanner.Tests           # NUnit unit тестове
+├── StudyPlanner.Web             # ASP.NET Core MVC
+├── StudyPlanner.Core            # Entity Models, Interfaces
+├── StudyPlanner.Infrastructure  # EF Core, Services, Migrations
+└── StudyPlanner.Tests           # NUnit Unit Tests
+```
 
 ---
 
-## 🚀 Инсталация
+## Installation
 
-1. Клонирай репото
+1. Clone the repository
+
 ```bash
 git clone https://github.com/BoyanTsarski/StudyPlanner-Web-App.git
 ```
-2. Настрой connection string в `appsettings.json`
-3. Изпълни миграцията
+
+2. Configure the connection string in `appsettings.json`
+
+3. Run the database migration
+
 ```bash
 Update-Database -StartupProject "StudyPlanner WebApp"
 ```
-4. Стартирай проекта с `F5`
+
+4. Start the project with `F5`
 
 ---
 
-## 🔑 Примерен Admin достъп
-Email:  admin@studyplanner.com
-Парола: Admin123!
+## Sample Admin Account
+
+**Email:** [admin@studyplanner.com](mailto:admin@studyplanner.com)
+**Password:** Admin123!
+
